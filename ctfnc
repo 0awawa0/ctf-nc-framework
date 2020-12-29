@@ -7,6 +7,7 @@ import lib.prod
 import lib.version
 import lib.validate_config
 import lib.generate
+import tasks
 
 VERSION = '0.1.0'
 CONFIG_FILE = 'config/config.py'
@@ -21,6 +22,7 @@ def main():
                         choices=['configfile', 'main'],
                         nargs='?',
                         help='when mode is `generate`, specify what to generate.')
+    parser.add_argument('--task')
     parser.add_argument('--version', action='version', version='%(prog)s ' + lib.version.VERSION)
     args = parser.parse_args()
     if args.mode == 'generate':
@@ -46,15 +48,13 @@ def main():
         return
 
     try:
-        from src.main import main
+        task = tasks.get_task(args.task)
+        runnable(validated_config, task)
     except Exception as e:
         print(type(e))
         print('Could not load main function. Check if you have defined a main function in \'src/main.py\'')
         print(f'Underlying exception: {e}')
         return
-
-    runnable(validated_config, main)
-
 
 
 if __name__ == '__main__':

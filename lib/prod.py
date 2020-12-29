@@ -69,10 +69,10 @@ def answer_request(main, connection, address):
 def run_prod(config: Config, main: Callable[[IStdin, IStdout], None]) -> NoReturn:
     pool = ThreadPoolExecutor(config.CTFNC_MAX_CONN)
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    sock.bind((config.CTFNC_BIND, config.CTFNC_PORT))
+    # sock.bind((config.CTFNC_BIND, config.CTFNC_PORT))
     sock.listen()
     atexit.register(sock.close)
-    print(f'Running in production at port {config.CTFNC_BIND}:{config.CTFNC_PORT}')
+    print(f'Running in production at port {sock.getsockname()[1]}')
     while True:
         conn, addr = sock.accept()
         pool.submit(answer_request, main, conn, addr)
