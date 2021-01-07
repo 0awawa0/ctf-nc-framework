@@ -1,26 +1,107 @@
 # ctf-nc-framework #
 A tiny framework to run python challenges in raw TCP.
 
-### Installing ###
-Just clone this repo and you're already down for business!
-Wanna test it out? Just run `./ctfnc prod`.
+## Install
+Just clone this repo and you are ready to go. 
 
-### How to ###
+To test it run:
+<pre><font color="#4E9A06"><b>awawa@awawa-pc</b></font>:<font color="#3465A4"><b>~/Documents/ctf-nc-framework</b></font>$ ./ctfnc prod --task main
+Running in production at port 57547
+</pre>
 
-Code your own challenge in `src/main.py`.
-There, you'll need to define a `main` function that has two
-parameters: `stdin` and `stdout`.
+And connect with `nc`:
+<pre><font color="#4E9A06"><b>awawa@awawa-pc</b></font>:<font color="#3465A4"><b>~/Documents/ctf-nc-framework</b></font>$ nc localhost 57547
+Hello, world!
+What is your name? alex
+Hello, alex!
+</pre>
 
-- You should use the `stdin.readline().strip()` to get your input.
-- You should use `stdout.write()` to output something. Remember to send `\n`s to the function!
-- In case you want to output without sending a `\n`, use `stdout.flush()`.
-- Do NOT use `input` or `print` for reasons other than debugging.
+## Adding your tasks
 
-After that, you can test it using `./ctfnc dev`. You should be able to use it through your terminal.
+### Task format
 
-With that working, try using `./ctfnc prod`. it will start listening on a TCP socket (by default, 9001),
-and be able to serve your challenge up to 10 users at the same time (also configurable -- see below).
+Every task you want to run must have function with following signature in it:
 
-### Configuration ###
-All configuration lies in `config/config.py`, although every single one of them is overwritable by env vars
-with the same name. for example, the config `CTFNC_PORT` is overwritable by the env var `CTFNC_PORT`.
+```python
+from lib.types import IStdin, IStdout
+
+def function_name(stdin: IStdin, stdout: IStdout):
+    # your code
+```
+
+Use ```stdin.readline()``` to read user's input as a single-line string.
+Use ```stdout.write(string)``` to send data back to user. `string` must end with `\n` to be sent. Or you can use
+
+```python
+stdout.write(string)
+stdout.flush()
+```
+
+to force sending. Example:
+
+```python
+string1 = "Hello, world!\n"
+stdout.write(string1)
+
+string2 = "Hello, world!"
+stdout.write(string2)
+stdout.flush()
+```
+
+### Configuring tasks.py
+
+Generally all tasks are placed in `./src` folder. Although it is not necessary. All tasks are listed in file `tasks.py`.
+It should look like this:
+
+```python
+def get_task(task_name):
+	if task_name == "main":
+		import src.main
+		return src.main.main
+```
+
+So to add new task you should just add another import. Let's say we want to add task `hello_world.py`:
+
+```python
+from lib.types import IStdin, IStdout
+
+
+def hello(stdin: IStdin, stdout: IStdout):
+    stdout.write("Hello!\n")
+```
+
+To add to task list we should follow the algorithm:
+
+1) Put `hello_world.py` to `./src`
+
+2) Edit `tasks.py` as follows:
+
+```python
+def get_task(task_name):
+	if task_name == "main":
+		import src.main
+		return src.main.main
+    elif task_name == "hello_world":
+        import src.hello_world
+        return src.hello_world.hello
+```
+
+That's it! Now we can run 
+
+<pre><font color="#4E9A06"><b>awawa@awawa-pc</b></font>:<font color="#3465A4"><b>~/Documents/ctf-nc-framework</b></font>$ ./ctfnc prod --task hello_world
+Running in production at port 48755
+</pre>
+
+And
+<pre><font color="#4E9A06"><b>awawa@awawa-pc</b></font>:<font color="#3465A4"><b>~/Documents/ctf-nc-framework</b></font>$ nc localhost 48755
+Hello!
+</pre>
+
+## dev option
+
+Instead of `prod` option you can also use `dev` option to run tasks locally with input and output through terminal:
+
+<pre><font color="#4E9A06"><b>awawa@awawa-pc</b></font>:<font color="#3465A4"><b>~/Documents/ctf-nc-framework</b></font>$ ./ctfnc dev --task main
+Hello, world!
+What is your name? alex
+Hello, alex!</pre>

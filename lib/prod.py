@@ -7,6 +7,7 @@ from typing import NoReturn, Callable
 from .types import IStdin, IStdout
 from .validate_config import Config
 
+
 class SocketWrapper:
     class Stdin:
         def __init__(self, sock: socket.socket, chunk_size: int = 1024):
@@ -30,6 +31,7 @@ class SocketWrapper:
                     parts.append(part)
                     continue
 
+                split_part.remove("")
                 if len(parts) > 0:
                     parts.append(split_part[0])
                     whole_part = ''.join(parts)
@@ -50,7 +52,6 @@ class SocketWrapper:
         def flush(self):
             return None
 
-
     def __init__(self, sock: socket.socket, chunk_size: int = 1024):
         self.stdin = self.Stdin(sock, chunk_size)
         self.stdout = self.Stdout(sock)
@@ -65,6 +66,7 @@ def answer_request(main, connection, address):
         print(f'[CRITICAL] encountered error at main: {e}')
     finally:
         connection.close()
+
 
 def run_prod(config: Config, main: Callable[[IStdin, IStdout], None]) -> NoReturn:
     pool = ThreadPoolExecutor(config.CTFNC_MAX_CONN)
