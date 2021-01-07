@@ -105,3 +105,37 @@ Instead of `prod` option you can also use `dev` option to run tasks locally with
 Hello, world!
 What is your name? alex
 Hello, alex!</pre>
+
+## Docker
+
+To build different tasks use `TASK_NAME` build-arg for `docker build`. By default `main` is used. Example of building and running `hello_world` task:
+
+<pre><font color="#4E9A06"><b>awawa@awawa-pc</b></font>:<font color="#3465A4"><b>~/Documents/ctf-nc-framework</b></font>$ sudo docker build -t hello_world --build-arg TASK_NAME=hello_world .
+Sending build context to Docker daemon  241.2kB
+Step 1/6 : FROM python:3-alpine
+ ---&gt; d4d4f50f871a
+Step 2/6 : ARG TASK_NAME=main
+ ---&gt; Using cache
+ ---&gt; 0222c18af20f
+Step 3/6 : ENV TASK_NAME ${TASK_NAME}
+ ---&gt; Running in 5fd5f98e06c8
+Removing intermediate container 5fd5f98e06c8
+ ---&gt; ef1383b8c1a8
+Step 4/6 : WORKDIR /chall
+ ---&gt; Running in 066956d005b3
+Removing intermediate container 066956d005b3
+ ---&gt; 27bb54efdc66
+Step 5/6 : COPY . .
+ ---&gt; 36098a742746
+Step 6/6 : CMD ./ctfnc prod --task ${TASK_NAME}
+ ---&gt; Running in 8d8efffc0c04
+Removing intermediate container 8d8efffc0c04
+ ---&gt; e4c1cb13ff4a
+Successfully built e4c1cb13ff4a
+Successfully tagged hello_world:latest
+<font color="#4E9A06"><b>awawa@awawa-pc</b></font>:<font color="#3465A4"><b>~/Documents/ctf-nc-framework</b></font>$ sudo docker run --net host --rm -it hello_world
+Running in production at port 35733
+</pre>
+
+<pre><font color="#4E9A06"><b>awawa@awawa-pc</b></font>:<font color="#3465A4"><b>~/Documents/CTF</b></font>$ nc localhost 35733
+Hello!</pre>
