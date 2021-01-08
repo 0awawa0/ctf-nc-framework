@@ -1,6 +1,7 @@
 */__pycache__
 __pycache__
-/src/matrix2bytes/
-/src/ECB_Oracle/
-/src/add_round_key/
+/src/ctf_tasks/matrix2bytes/
+/src/ctf_tasks/ECB_Oracle/
+/src/ctf_tasks/add_round_key/
 .idea/
+/src/ctf_tasks/
