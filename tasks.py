@@ -13,6 +13,12 @@ def get_task(task_name):
 	elif task_name == "add_round_key":
 		import src.ctf_tasks.add_round_key.main
 		return src.ctf_tasks.add_round_key.main.main
+	elif task_name == "permutation":
+		import src.ctf_tasks.permutation.permutation
+		return src.ctf_tasks.permutation.permutation.main
 	elif task_name == "sbox":
 		import src.ctf_tasks.sbox.sbox
 		return src.ctf_tasks.sbox.sbox.main
+	elif task_name == "full_aes":
+		import src.ctf_tasks.full_aes.full_aes
+		return src.ctf_tasks.full_aes.full_aes.main
