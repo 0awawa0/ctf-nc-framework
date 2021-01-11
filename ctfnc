@@ -12,6 +12,7 @@ import tasks
 VERSION = '0.1.0'
 CONFIG_FILE = 'config/config.py'
 
+
 def main():
     parser = argparse.ArgumentParser(description='Run your CTF challenges in production easily')
     parser.add_argument('mode',
@@ -24,6 +25,7 @@ def main():
                         help='when mode is `generate`, specify what to generate.')
     parser.add_argument('--task')
     parser.add_argument('--version', action='version', version='%(prog)s ' + lib.version.VERSION)
+    parser.add_argument('--port', default=0, type=int)
     args = parser.parse_args()
     if args.mode == 'generate':
         lib.generate.generate(parser, args)
@@ -37,6 +39,9 @@ def main():
         print('Check if you have defined a configuration file in config/config.py.')
         print(f'Underlying exception: {e}')
         return
+
+    if args.port:
+        config.CTFNC_PORT = args.port
 
     validated_config: lib.validate_config.Config = None
     try:
