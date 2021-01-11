@@ -22,3 +22,6 @@ def get_task(task_name):
 	elif task_name == "full_aes":
 		import src.ctf_tasks.full_aes.full_aes
 		return src.ctf_tasks.full_aes.full_aes.main
+	elif task_name == "riddler":
+		import src.ctf_tasks.riddler.riddler
+		return src.ctf_tasks.riddler.riddler.main
