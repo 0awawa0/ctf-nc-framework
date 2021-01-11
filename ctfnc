@@ -25,7 +25,7 @@ def main():
                         help='when mode is `generate`, specify what to generate.')
     parser.add_argument('--task')
     parser.add_argument('--version', action='version', version='%(prog)s ' + lib.version.VERSION)
-    parser.add_argument('--port', default=0, type=int)
+    parser.add_argument('--port', default="default")
     args = parser.parse_args()
     if args.mode == 'generate':
         lib.generate.generate(parser, args)
@@ -40,8 +40,10 @@ def main():
         print(f'Underlying exception: {e}')
         return
 
-    if args.port:
-        config.CTFNC_PORT = args.port
+    if args.port == 'random':
+        config.CTFNC_PORT = 0
+    elif args.port != 'default':
+        config.CTFNC_PORT = int(args.port)
 
     validated_config: lib.validate_config.Config = None
     try:
