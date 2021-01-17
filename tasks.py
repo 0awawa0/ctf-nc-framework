@@ -28,3 +28,6 @@ def get_task(task_name):
 	elif task_name == "guess_the_melody":
 		import src.ctf_tasks.guess_the_melody.guess_the_melody
 		return src.ctf_tasks.guess_the_melody.guess_the_melody.main
+	elif task_name == "guess_the_number":
+		import src.ctf_tasks.guess_the_number.guess_the_number
+		return src.ctf_tasks.guess_the_number.guess_the_number.main
