@@ -25,3 +25,6 @@ def get_task(task_name):
 	elif task_name == "riddler":
 		import src.ctf_tasks.riddler.riddler
 		return src.ctf_tasks.riddler.riddler.main
+	elif task_name == "guess_the_melody":
+		import src.ctf_tasks.guess_the_melody.guess_the_melody
+		return src.ctf_tasks.guess_the_melody.guess_the_melody.main
