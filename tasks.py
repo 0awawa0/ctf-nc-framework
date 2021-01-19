@@ -31,3 +31,9 @@ def get_task(task_name):
 	elif task_name == "guess_the_number":
 		import src.ctf_tasks.guess_the_number.guess_the_number
 		return src.ctf_tasks.guess_the_number.guess_the_number.main
+	elif task_name == "bulls_and_cows":
+		import src.ctf_tasks.bulls_and_cows.bulls_and_cows
+		return src.ctf_tasks.bulls_and_cows.bulls_and_cows.main
+	elif task_name == "repeater":
+		import src.ctf_tasks.repeater.repeater
+		return src.ctf_tasks.repeater.repeater.main
