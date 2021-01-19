@@ -1,4 +1,6 @@
-FROM python:3-alpine
+FROM python:3.8-slim
+
+# For some tasks: RUN pip install --no-cache-dir pycryptodome
 
 ARG TASK_NAME=main
 ARG TASK_PORT=default
