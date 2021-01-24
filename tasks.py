@@ -37,3 +37,15 @@ def get_task(task_name):
 	elif task_name == "repeater":
 		import src.ctf_tasks.repeater.repeater
 		return src.ctf_tasks.repeater.repeater.main
+	elif task_name == "passwords_as_keys":
+		import src.ctf_tasks.passwords_as_keys.passwords_as_keys
+		return src.ctf_tasks.passwords_as_keys.passwords_as_keys.main
+	elif task_name == "ecb_oracle":
+		import src.ctf_tasks.ecb_oracle.ecb_oracle
+		return src.ctf_tasks.ecb_oracle.ecb_oracle.main
+	elif task_name == "ecb_cbc_wtf":
+		import src.ctf_tasks.ecb_cbc_wtf.ecb_cbc_wtf
+		return src.ctf_tasks.ecb_cbc_wtf.ecb_cbc_wtf.main
+	elif task_name == "flipping_cookie":
+		import src.ctf_tasks.flipping_cookie.flipping_cookie
+		return src.ctf_tasks.flipping_cookie.flipping_cookie.main
